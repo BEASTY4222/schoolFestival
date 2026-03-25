@@ -8,6 +8,8 @@ struct Button
 	std::string buttonText;
 	Color normalbuttonColor;
 	Color currentbuttonColor;
+	Color hoverTextColor;
+	Color normalTextColor;
 	std::string text;
 
 	Button(Rectangle box, std::string buttonText, Color buttonColor, std::string text)
@@ -17,6 +19,8 @@ struct Button
 		this->normalbuttonColor = buttonColor;
 		this->currentbuttonColor = buttonColor;
 		this->text = text;
+		this->normalTextColor = WHITE;
+		this->hoverTextColor = BLACK;
 
 		// Create codepoint array for Cyrillic characters
 		int codepoints[512];
@@ -39,17 +43,36 @@ struct Button
 		this->textFont = GetFontDefault();
 	}
 
-	void draw()
-	{
-		DrawRectangleRec(box, Fade(currentbuttonColor, 0.5f));
+	void draw(){
+		DrawRectangleRec(box, currentbuttonColor);
 		DrawRectangleLinesEx(box, 4, BLACK);
-		DrawTextEx(textFont, buttonText.c_str(), { box.x + 45, box.y + 10 }, 20, 1, BLACK);
+		DrawTextEx(textFont, buttonText.c_str(), { box.x + 45, box.y + 10 }, 20, 5, BLACK);
 	}
 
-	void run()
-	{
+	void run(bool &nextStage, bool &peioTalking, std::string &message){
+		if (CheckCollisionPointRec(GetMousePosition(), box)) {
+			normalTextColor = hoverTextColor;
+			currentbuttonColor = WHITE;
+
+			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+				nextStage = true;
+				message = text;
+				peioTalking = true;
+
+				this->reset();
+			}
+		}
+		else {
+			normalTextColor = WHITE;
+			currentbuttonColor = normalbuttonColor;
+		}
 		
 	}
 
-
+	void reset() {
+		this->box = { 0, 0, 0, 0 };
+		this->buttonText = "";
+		this->normalbuttonColor = { 0, 0, 0, 255 };
+		this->textFont = GetFontDefault();
+	}
 };
