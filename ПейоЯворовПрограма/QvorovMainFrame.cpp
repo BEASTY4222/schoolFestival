@@ -9,9 +9,9 @@ QvorovMainFrame::QvorovMainFrame() :
 
 	firstOptionSelected(false), secondOptionSelected(false),
 
-	start(true), startTime(0.0f), howBlack(1.0f), peioTalking(false), showInterviewOptions(false),
-	optionsBox({ 470, 550, 470, 190 }),
-	peioMessageBox({ 470, 50, 470, 200 }),
+	start(true), startTime(0.0f), howBlack(1.0f), peioTalking(false), showInterviewOptions(false), optionsIndex(0),
+	optionsBox({ 465, 500, 475, 190 }),
+	peioMessageBox({ 470, 50, 470, 250 }),
 
 
 	helloPeioButton({ 470, 550, 470, 50 }, "Здравей,  Пейо  как  си?", GRAY,
@@ -22,8 +22,9 @@ QvorovMainFrame::QvorovMainFrame() :
 		"Душа, разкъсвана между любовта, която изгаря, и свободата, която не чака. \n" +
 		"Живях кратко, но в пламък – в стиховете, в борбата, в страстта.\n" +
 		"Аз съм човекът, който търси невъзможното и плаща цената му. \n" +
-		"Пламък съм – понякога светя, понякога изгарям, но никога не угасвам.")
+		"Пламък съм – понякога светя, понякога изгарям, но никога не угасвам."),
 
+	options{ { 470, 510, 470, 50 }, { 470, 570, 470, 50 }, { 470, 630, 470, 50 }, { 470, 690, 470, 50 } }
 
 {
 	int codepoints[512];
@@ -44,6 +45,15 @@ void QvorovMainFrame::runVisuals(){
 	if (showInterviewOptions) {
 		DrawRectangleRec(optionsBox, Fade(BLACK, 0.5f));
 		
+		// Options
+		for (optionsIndex = 0;optionsIndex < 4;optionsIndex++) {
+			if (optionsIndex <= availableOptions.size() - 1) {
+				availableOptions.at(optionsIndex).draw();
+			}
+			else {
+				DrawRectangleRec(options[optionsIndex], GRAY);
+			}
+		}
 	}
 	
 
@@ -76,9 +86,21 @@ void QvorovMainFrame::runVisuals(){
 
 void QvorovMainFrame::runMath() {
 	if (!firstOptionSelected) {
+		if (availableOptions.size() < 1) {
+			availableOptions.push_back(helloPeioButton);
+		}
 		helloPeioButton.run(firstOptionSelected, peioTalking, peioMessage);
 	}
 	else if (firstOptionSelected && !secondOptionSelected) {
+		// Remove the first option from available options, already selected
+		std::vector<Button>::iterator it = std::find(availableOptions.begin(), availableOptions.end(), helloPeioButton);
+		if (it != availableOptions.end()) {
+			availableOptions.erase(it);
+		}
+
+		if (availableOptions.size() < 1) {
+			availableOptions.push_back(biographyButton);
+		}
 		biographyButton.run(secondOptionSelected, peioTalking, peioMessage);
 	}
 }

@@ -1,6 +1,10 @@
 #include "raylib.h"
 #include "Button.h"
 
+#include <vector>
+#include <algorithm>
+#include <string>
+
 class QvorovMainFrame
 {
 	Image backgroundImage;
@@ -10,6 +14,10 @@ class QvorovMainFrame
 
 	Rectangle optionsBox;
 	Rectangle peioMessageBox;
+
+	Rectangle options[4];
+	std::vector<Button> availableOptions;
+	int optionsIndex;
 
 	bool start;
 	float startTime;

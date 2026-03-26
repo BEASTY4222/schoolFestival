@@ -75,4 +75,17 @@ struct Button
 		this->normalbuttonColor = { 0, 0, 0, 255 };
 		this->textFont = GetFontDefault();
 	}
+
+	bool operator==(const Button& other) const {
+		return this->box.x == other.box.x &&
+			   this->box.y == other.box.y &&
+			   this->box.width == other.box.width &&
+			   this->box.height == other.box.height &&
+			   this->buttonText == other.buttonText &&
+			   this->normalbuttonColor.r == other.normalbuttonColor.r &&
+			   this->normalbuttonColor.g == other.normalbuttonColor.g &&
+			   this->normalbuttonColor.b == other.normalbuttonColor.b &&
+			   this->normalbuttonColor.a == other.normalbuttonColor.a &&
+			   this->text == other.text;
+	}
 };
