@@ -21,17 +21,22 @@ struct Button
 		this->text = text;
 		this->normalTextColor = WHITE;
 		this->hoverTextColor = BLACK;
-
-		// Create codepoint array for Cyrillic characters
-		int codepoints[512];
+		
+		int codepoints[1024];
 		int count = 0;
 
-		// Cyrillic basic range (А-Я, а-я) - U+0400 to U+04FF
-		for (int i = 0x0400; i <= 0x04FF; i++) {
-			codepoints[count++] = i;
-		}
+		// ASCII printable (space 0x20 .. tilde 0x7E)
+		for (int i = 0x20; i <= 0x7E; i++) codepoints[count++] = i;
+
+		// Cyrillic block U+0400 .. U+04FF
+		for (int i = 0x0400; i <= 0x04FF; i++) codepoints[count++] = i;
+
+		// Add extra punctuation you might need
+		int extras[] = { 0x00AB, 0x00BB, 0x2013, 0x2014, 0x2026, 0x2018, 0x2019 };
+		for (int i = 0; i < sizeof(extras) / sizeof(extras[0]); i++) codepoints[count++] = extras[i];
 
 		this->textFont = LoadFontEx("resources/Fonts/2596-font.ttf", 32, codepoints, count);
+
 	}
 
 	Button() {

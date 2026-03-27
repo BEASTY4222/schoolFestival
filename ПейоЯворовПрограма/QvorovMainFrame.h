@@ -30,6 +30,8 @@ class QvorovMainFrame
 	// Stages
 	bool firstOptionSelected;
 	bool secondOptionSelected;
+	bool thirdOptionSelected;
+	bool fourthOptionSelected;
 
 	// Defined button
 	Button emptyButtonOne;
@@ -46,6 +48,17 @@ class QvorovMainFrame
 	Button needsForLovePoetryButton;
 	Button whatMakesHimWriteButton;
 
+	// Third option buttons
+	Button whatMadeHimFightButton;
+	Button worstPartOfRevolutionButton;
+	Button wasItWorthItButton;
+	Button isFateRealButton;
+
+	// Fourth option buttons
+	Button whatDoyouLeaveButton;
+	Button whatMakesPoetryAlive;
+	Button doYoufeelMoreUnderstoodButton;
+	Button doesThePoetHaveToBeUnderstoodButton;
 
 	public:
 		QvorovMainFrame();
